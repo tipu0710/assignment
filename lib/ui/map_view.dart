@@ -100,12 +100,7 @@ class _MapViewState extends State<MapView> {
                   markers: _markers,
                   zoomControlsEnabled: false,
                   onMapCreated: (GoogleMapController controller) async {
-                    if (_marker == null) {
-                      await Future.delayed(Duration.zero);
-                      _marker = await getCustomIcon(_iconKey);
-                      _arrow = await getCustomIcon(_arrowKey);
-                      _positionMar = await getCustomIcon(_positionKey);
-                    }
+                    await cookMarker();
                     setState(() {
                       _controller.complete(controller);
                       controller.setMapStyle(_mapStyle);
@@ -123,6 +118,15 @@ class _MapViewState extends State<MapView> {
         ],
       ),
     );
+  }
+
+  Future cookMarker() async{
+    if (_marker == null || _arrow == null || _positionMar == null) {
+      await Future.delayed(Duration(seconds: 1));
+      _marker = await getCustomIcon(_iconKey);
+      _arrow = await getCustomIcon(_arrowKey);
+      _positionMar = await getCustomIcon(_positionKey);
+    }
   }
 
   RepaintBoundary initWidget() {
@@ -220,6 +224,7 @@ class _MapViewState extends State<MapView> {
           await MapHelper.getLocation(map['city'], map['country']);
       _positionInfo =
           LatLng(results.geometry.location.lat, results.geometry.location.lat);
+      await cookMarker();
       setState(() {
         _markers.add(Marker(
             markerId: MarkerId("loc"),
