@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 class ApiService {
-
   static Future<Response> getMethod(String url) async {
     Dio dio = new Dio();
 

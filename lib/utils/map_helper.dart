@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:assignment/api_service.dart';
-import 'package:assignment/location_model.dart';
+import 'package:assignment/services/api_service.dart';
+import 'package:assignment/models/location_model.dart';
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -16,9 +16,8 @@ class MapHelper {
   static double getAngle(LatLng a, LatLng b){
     var delta_x = a.latitude - b.latitude;
     var delta_y = a.longitude - b.longitude;
-    var theta_radians = atan2(delta_y, delta_x);
+    var theta_radians = atan2(delta_y, delta_x)*-57.2958;
     print(theta_radians);
-    print(theta_radians);
-    return theta_radians*57.2958;
+    return theta_radians;
   }
 }
